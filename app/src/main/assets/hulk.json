@@ -1,0 +1,27 @@
+{
+  "name": "Hulk",
+  "keys": [
+    {
+      "name": "Bruce Banner",
+      "origin": "MARVEL",
+      "gender": "MALE",
+      "classifications": ["HUMAN_MUTATE", "SCIENTIST", "AVENGER", "DEFENDER"],
+      "imagePath": "characters/bruce_banner.webp",
+      "statTiers": {
+        "tier": { "value": "9-B", "modifier": null },
+        "attackPotency": { "value": "WALL", "modifier": "PLUS" },
+        "speed": { "value": "HYPERSONIC", "modifier": null },
+        "liftingStrength": { "value": "AVERAGE_HUMAN", "modifier": null },
+        "strikingStrength": { "value": "WALL", "modifier": "PLUS" },
+        "durability": { "value": "WALL", "modifier": "PLUS" },
+        "intelligence": { "value": "EXTRAORDINARY_GENIUS", "modifier": null },
+        "range": { "value": "EXTENDED", "modifier": null },
+        "stamina": { "value": "SUPERHUMAN", "modifier": null }
+      },
+      "powers": [],
+      "resistances": [],
+      "equipment": [],
+      "attacks": []
+    }
+  ]
+}
