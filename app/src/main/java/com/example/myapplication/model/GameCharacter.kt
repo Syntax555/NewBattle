@@ -1,5 +1,6 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 /**
@@ -13,5 +14,6 @@ data class GameCharacter(
     val name: String,
     val origin: Origin,
     val gender: Gender,
+    @Contextual
     val keys: List<CharacterKey>
 )

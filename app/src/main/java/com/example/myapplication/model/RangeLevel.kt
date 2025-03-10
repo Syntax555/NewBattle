@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents the levels for a character's Range (attack or ability reach).
  *
@@ -77,6 +79,7 @@ package com.example.myapplication.model
  * - High Outerversal: Completely beyond all 1-A hierarchies and extensions.
  * - Boundless: Characters existing beyond any quantitative or qualitative distinction.
  */
+@Serializable
 enum class RangeLevel(val label: String) {
     BELOW_STANDARD("Below Standard Melee Range"),
     STANDARD("Standard Melee Range"),

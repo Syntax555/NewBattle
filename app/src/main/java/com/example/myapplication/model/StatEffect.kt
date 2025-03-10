@@ -1,10 +1,13 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents an effect that modifies a specific stat.
  *
  * This sealed class allows for additional effect types in the future.
  */
+@Serializable
 sealed class StatEffect {
     abstract val statType: StatType
     abstract val change: Double
@@ -17,6 +20,7 @@ sealed class StatEffect {
      */
     abstract val abilityTag: String?
 
+    @Serializable
     data class SimpleEffect(
         override val statType: StatType,
         override val change: Double,

@@ -31,10 +31,14 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myapplication.model.*
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+// Import the stable version
+import androidx.compose.foundation.layout.FlowRow
 
 /**
  * Enhanced character card component with expandable stats section.
  */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CharacterCard(
     character: GameCharacter,
@@ -121,13 +125,29 @@ fun CharacterCard(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Classifications
-                FlowRow(
+                val classifications = key.classifications.toList()
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    key.classifications.forEach { classification ->
-                        ClassificationChip(classification = classification)
+                    classifications.take(3).forEach { classification ->
+                        ClassificationChip(
+                            classification = classification,
+                            modifier = Modifier.weight(1f, fill = false)
+                        )
+                    }
+                }
+                if (classifications.size > 3) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        classifications.drop(3).take(3).forEach { classification ->
+                            ClassificationChip(
+                                classification = classification,
+                                modifier = Modifier.weight(1f, fill = false)
+                            )
+                        }
                     }
                 }
 
@@ -163,9 +183,12 @@ fun CharacterCard(
  * Classification chip component.
  */
 @Composable
-fun ClassificationChip(classification: Classification) {
+fun ClassificationChip(
+    classification: Classification,
+    modifier: Modifier = Modifier
+) {
     Surface(
-        modifier = Modifier.padding(2.dp),
+        modifier = modifier.padding(2.dp),
         shape = RoundedCornerShape(16.dp),
         color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.15f)
     ) {

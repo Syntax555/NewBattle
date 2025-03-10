@@ -1,10 +1,13 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Encapsulates all tiered stat values for a character.
  *
  * Each stat is modeled as a mutable value (which may change during battle).
  */
+@Serializable
 data class StatTiers(
     var tier: TierValue,
     var attackPotency: AttackPotencyValue,

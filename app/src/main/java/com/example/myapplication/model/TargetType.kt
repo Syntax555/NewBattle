@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents the target of a stat effect.
  *
@@ -7,6 +9,7 @@ package com.example.myapplication.model
  * - ENEMY: The effect applies to enemy characters.
  * - GLOBAL: The effect applies to all characters or the entire battlefield.
  */
+@Serializable
 enum class TargetType {
     SELF,
     ENEMY,

@@ -1,10 +1,13 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents the levels for a character's Durability.
  *
  * Durability measurements, values, and tiers are the same as the Attack Potency levels.
  */
+@Serializable
 enum class DurabilityLevel(val label: String) {
     BELOW_AVERAGE_HUMAN("Below Average Human"),
     HUMAN("Human"),

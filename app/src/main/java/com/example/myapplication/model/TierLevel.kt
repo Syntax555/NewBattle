@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents a specific tier level.
  *
@@ -9,6 +11,7 @@ package com.example.myapplication.model
  * - 10-A: Athlete level
  * - 0: Boundless
  */
+@Serializable
 enum class TierLevel(val label: String, val description: String) {
     // Tier 11
     _11C("11-C", "Low Hypoverse level"),

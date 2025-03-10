@@ -1,10 +1,13 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents the levels for a character's Attack Potency.
  *
  * Each value contains a descriptive level name.
  */
+@Serializable
 enum class AttackPotencyLevel(val label: String) {
     BELOW_AVERAGE_HUMAN("Below Average Human"),
     HUMAN("Human"),

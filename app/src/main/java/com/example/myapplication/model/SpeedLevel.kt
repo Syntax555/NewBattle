@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents the levels for a character's Speed.
  *
@@ -33,6 +35,8 @@ package com.example.myapplication.model
  * - Massively FTL: 2.998e+10 - 2.998e+11 m/s, (100x - 1000x light speed), etc.
  * - Massively FTL+: 2.998e+11 m/s and up, (1000x+ light speed).
  */
+
+@Serializable
 enum class SpeedLevel(val label: String) {
     IMMOBILE("Immobile"),
     BELOW_AVERAGE_HUMAN("Below Average Human"),

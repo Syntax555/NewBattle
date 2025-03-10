@@ -1,24 +1,23 @@
-// CharacterViewModel.kt (simplified)
 package com.example.myapplication.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.model.CharacterKey
 import com.example.myapplication.model.GameCharacter
-import com.example.myapplication.model.calculateTotalScore
+import com.example.myapplication.model.OptimizedStatScoringEngine
 import com.example.myapplication.repository.CharacterRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
-/**
- * ViewModel for character-related screens.
- */
-class CharacterViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = CharacterRepository(application)
+@HiltViewModel
+class CharacterViewModel @Inject constructor(
+    private val repository: CharacterRepository
+) : ViewModel() {
 
     // UI state
     private val _uiState = MutableStateFlow<CharactersUiState>(CharactersUiState.Loading)
@@ -40,9 +39,10 @@ class CharacterViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             _uiState.value = CharactersUiState.Loading
             try {
-                val characters = repository.loadAllCharacters()
+                val characters = repository.getAllCharacters()
                 _uiState.value = CharactersUiState.Success(characters)
             } catch (e: Exception) {
+                Timber.e(e, "Failed to load characters")
                 _uiState.value = CharactersUiState.Error("Failed to load characters: ${e.message}")
             }
         }
@@ -60,8 +60,9 @@ class CharacterViewModel(application: Application) : AndroidViewModel(applicatio
         val left = _leftSelection.value ?: return null
         val right = _rightSelection.value ?: return null
 
-        val leftScore = left.second.statTiers.calculateTotalScore()
-        val rightScore = right.second.statTiers.calculateTotalScore()
+        // Use the optimized scoring engine for better performance
+        val leftScore = OptimizedStatScoringEngine.calculateTotalScoreOptimized(left.second.statTiers)
+        val rightScore = OptimizedStatScoringEngine.calculateTotalScoreOptimized(right.second.statTiers)
 
         return when {
             leftScore > rightScore -> BattleResult.Victory(left, leftScore, right, rightScore)
@@ -69,20 +70,20 @@ class CharacterViewModel(application: Application) : AndroidViewModel(applicatio
             else -> BattleResult.Draw(left, leftScore, right, rightScore)
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        // Clean up any resources
+        OptimizedStatScoringEngine.clearCaches()
+    }
 }
 
-/**
- * UI state for characters screen.
- */
 sealed class CharactersUiState {
     data object Loading : CharactersUiState()
     data class Success(val characters: List<GameCharacter>) : CharactersUiState()
     data class Error(val message: String) : CharactersUiState()
 }
 
-/**
- * Battle result.
- */
 sealed class BattleResult {
     data class Victory(
         val winner: Pair<GameCharacter, CharacterKey>,

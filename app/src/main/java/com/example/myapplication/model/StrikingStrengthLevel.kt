@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents the levels for a character's Striking Strength.
  *
@@ -65,6 +67,7 @@ package com.example.myapplication.model
  * 54. High Outerverse level
  * 55. Inapplicable
  */
+@Serializable
 enum class StrikingStrengthLevel(val label: String) {
     LOW_HYPOVERSE("Low Hypoverse level"),
     HYPOVERSE("Hypoverse level"),

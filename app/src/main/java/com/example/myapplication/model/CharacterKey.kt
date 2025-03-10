@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents a specific variant (or "key") of a character.
  *
@@ -12,6 +14,7 @@ package com.example.myapplication.model
  * @property equipment A list of equipment items associated with this key.
  * @property attacks A list of attacks that this key can perform.
  */
+@Serializable
 data class CharacterKey(
     val name: String,
     val classifications: Set<Classification>,

@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents a resistance attribute for a character key.
  *
@@ -10,6 +12,7 @@ package com.example.myapplication.model
  * @property description A description of the resistance.
  * @property negates A set of ability tags that this resistance negates.
  */
+@Serializable
 data class Resistance(
     val name: String,
     val description: String,

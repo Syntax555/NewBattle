@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents an equipment item associated with a character key.
  *
@@ -13,6 +15,7 @@ package com.example.myapplication.model
  * @property enabled Whether the equipment is currently active. For standard equipment, this is always true.
  * @property disables A set of ability tags that this equipment disables.
  */
+@Serializable
 data class Equipment(
     val name: String,
     val description: String,

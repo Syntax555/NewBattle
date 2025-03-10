@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents the levels for a character's Intelligence.
  *
@@ -22,6 +24,7 @@ package com.example.myapplication.model
  * - Nigh-Omniscient: Nearly all-knowing with only minor gaps.
  * - Omniscient: Knows literally everything.
  */
+@Serializable
 enum class IntelligenceLevel(val label: String) {
     MINDLESS("Mindless"),
     INSTINCTIVE("Instinctive"),

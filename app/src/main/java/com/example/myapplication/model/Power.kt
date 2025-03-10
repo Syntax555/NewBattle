@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents a power that a character key can have.
  *
@@ -11,6 +13,7 @@ package com.example.myapplication.model
  * @property statEffects A list of stat effects that this power applies.
  * @property disables A set of ability tags that this power disables.
  */
+@Serializable
 data class Power(
     val name: String,
     val description: String,

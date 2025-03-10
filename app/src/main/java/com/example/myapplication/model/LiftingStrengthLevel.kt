@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents the levels for a character's Lifting Strength.
  *
@@ -34,6 +36,8 @@ package com.example.myapplication.model
  * - Infinite: Infinite weight by 3-dimensional standards.
  * - Immeasurable: Lifting objects wholly superior to 3-dimensional space.
  */
+
+@Serializable
 enum class LiftingStrengthLevel(val label: String) {
     INAPPLICABLE("Inapplicable"),
     BELOW_AVERAGE_HUMAN("Below Average Human"),

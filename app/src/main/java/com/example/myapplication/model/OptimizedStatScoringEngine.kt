@@ -1,4 +1,3 @@
-// OptimizedStatScoringEngine.kt
 package com.example.myapplication.model
 
 import kotlinx.coroutines.Dispatchers
@@ -14,17 +13,33 @@ object OptimizedStatScoringEngine {
     // Cache for modifier bonus values
     private val modifierBonusCache = mutableMapOf<StatModifier?, Int>()
 
+    // Helper function to get cached ordinal (made public to be accessible from inline functions)
+    @PublishedApi
+    internal fun getOrdinal(value: Enum<*>): Int {
+        return ordinalCache.getOrPut(value) { value.ordinal }
+    }
+
+    // Helper function to get cached bonus (made public to be accessible from inline functions)
+    @PublishedApi
+    internal fun getModifierBonus(modifier: StatModifier?): Int {
+        return modifierBonusCache.getOrPut(modifier) {
+            modifier?.bonusValue ?: 2
+        }
+    }
+
+    // Helper function to update cached ordinal (made public to be accessible from inline functions)
+    @PublishedApi
+    internal fun updateOrdinalCache(value: Enum<*>, ordinal: Int) {
+        ordinalCache[value] = ordinal
+    }
+
     /**
      * Calculates score for a stat value holder with caching of intermediate values.
      */
     inline fun <reified T : Enum<T>> StatValueHolder<T>.calculateScoreOptimized(): Int {
-        // Get cached ordinal or compute and cache it
-        val ordinal = ordinalCache.getOrPut(this.value) { this.value.ordinal }
-
-        // Get cached modifier bonus or compute and cache it
-        val bonus = modifierBonusCache.getOrPut(this.modifier) {
-            this.modifier?.bonusValue() ?: 2
-        }
+        // Use the helper functions instead of accessing the private caches directly
+        val ordinal = getOrdinal(this.value)
+        val bonus = getModifierBonus(this.modifier)
 
         return (ordinal * StatScoringConfig.BASE_MULTIPLIER) +
                 bonus +
@@ -125,14 +140,14 @@ object OptimizedStatScoringEngine {
 
         // Apply the effect
         val enumConstants = enumValues<T>()
-        val baseOrdinal = ordinalCache.getOrPut(this.value) { this.value.ordinal }
+        val baseOrdinal = getOrdinal(this.value)
         val newOrdinal = (baseOrdinal + best.change.toInt()).coerceIn(0, enumConstants.size - 1)
 
         this.value = enumConstants[newOrdinal]
         this.modifier = best.modifier
 
-        // Update cache with new value
-        ordinalCache[this.value] = newOrdinal
+        // Update cache with new value using the helper method
+        updateOrdinalCache(this.value, newOrdinal)
     }
 
     /**

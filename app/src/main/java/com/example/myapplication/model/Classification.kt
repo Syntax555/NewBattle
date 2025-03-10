@@ -1,9 +1,12 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents a classification or trait for a character key.
  * Examples include: Human Mutate, Scientist, Fugitive on the run, Avenger, Defender.
  */
+@Serializable
 enum class Classification(val label: String) {
     HUMAN_MUTATE("Human Mutate"),
     SCIENTIST("Scientist"),

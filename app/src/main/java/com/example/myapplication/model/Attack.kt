@@ -1,5 +1,7 @@
 package com.example.myapplication.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents an attack that a character can perform.
  *
@@ -11,9 +13,10 @@ package com.example.myapplication.model
  * @property statEffects A list of stat effects produced by the attack.
  * @property disables A set of ability tags that this attack disables.
  */
+@Serializable
 data class Attack(
     val name: String,
     val description: String,
     override val statEffects: List<StatEffect> = emptyList(),
-    override val disables: Set<String> = emptySet()  // Immutable set by default
+    override val disables: Set<String> = emptySet()
 ) : StatEffectProvider, DisableProvider
