@@ -1,10 +1,10 @@
 {
   "name": "Hulk",
+  "origin": "MARVEL",
+  "gender": "MALE",
   "keys": [
     {
       "name": "Bruce Banner",
-      "origin": "MARVEL",
-      "gender": "MALE",
       "classifications": ["HUMAN_MUTATE", "SCIENTIST", "AVENGER", "DEFENDER"],
       "imagePath": "characters/bruce_banner.webp",
       "statTiers": {

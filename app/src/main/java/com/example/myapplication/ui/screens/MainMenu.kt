@@ -9,18 +9,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
-/**
- * Main menu screen containing a test button.
- */
 @Composable
-fun MainMenu() {
+fun MainMenu(onStartGame: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = { /* TODO: Add button actions later */ }) {
+        Button(onClick = { /* Other actions */ }) {
             Text("Test Button")
+        }
+        Button(onClick = onStartGame) {
+            Text("Start Game")
         }
     }
 }

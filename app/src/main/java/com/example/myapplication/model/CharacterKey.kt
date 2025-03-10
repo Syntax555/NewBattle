@@ -3,9 +3,7 @@ package com.example.myapplication.model
 /**
  * Represents a specific variant (or "key") of a character.
  *
- * @property name The key name (e.g., "Bruce Banner", "Grey Hulk").
- * @property origin The origin of the character (e.g., MARVEL, DC).
- * @property gender The character’s gender.
+ * @property name The key name (e.g., "Bruce Banner", "World War Hulk").
  * @property classifications A set of classifications (e.g., SCIENTIST, PHYSICIST).
  * @property imagePath The local file path or asset name for the key's image.
  * @property statTiers The tiered statistics for this key.
@@ -16,8 +14,6 @@ package com.example.myapplication.model
  */
 data class CharacterKey(
     val name: String,
-    val origin: Origin,
-    val gender: Gender,
     val classifications: Set<Classification>,
     val imagePath: String,
     val statTiers: StatTiers,

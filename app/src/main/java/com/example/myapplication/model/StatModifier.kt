@@ -5,21 +5,13 @@ package com.example.myapplication.model
  *
  * For example: PLUS, AT_LEAST, AT_MOST, LIKELY, POSSIBLY, HIGHER, LOWER, VARIES.
  */
-enum class StatModifier(val symbol: String) {
-    PLUS("+"),
-    AT_LEAST("at least"),
-    AT_MOST("at most"),
-    LIKELY("likely"),
-    POSSIBLY("possibly"),
-    HIGHER("higher"),
-    LOWER("lower"),
-    VARIES("varies");
-
-    fun bonusValue(): Int = when (this) {
-        LOWER -> 0
-        AT_MOST -> 1
-        LIKELY -> 3
-        PLUS -> 4
-        AT_LEAST, POSSIBLY, HIGHER, VARIES -> 2
-    }
+enum class StatModifier(val symbol: String, val bonusValue: Int) {
+    PLUS("+", 4),
+    AT_LEAST("at least", 2),
+    AT_MOST("at most", 1),
+    LIKELY("likely", 3),
+    POSSIBLY("possibly", 2),
+    HIGHER("higher", 2),
+    LOWER("lower", 0),
+    VARIES("varies", 2);
 }

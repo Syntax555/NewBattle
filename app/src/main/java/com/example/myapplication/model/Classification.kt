@@ -9,5 +9,7 @@ enum class Classification(val label: String) {
     SCIENTIST("Scientist"),
     FUGITIVE_ON_THE_RUN("Fugitive on the run"),
     AVENGER("Avenger"),
-    DEFENDER("Defender")
+    DEFENDER("Defender");
+
+    override fun toString(): String = label
 }

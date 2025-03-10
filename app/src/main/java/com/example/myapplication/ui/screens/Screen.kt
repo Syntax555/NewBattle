@@ -6,4 +6,5 @@ package com.example.myapplication.ui.screens
 sealed class Screen {
     object Start : Screen()
     object MainMenu : Screen()
+    object Game : Screen() // New Game screen added
 }
