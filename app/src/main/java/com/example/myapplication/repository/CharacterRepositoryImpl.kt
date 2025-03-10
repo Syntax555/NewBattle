@@ -2,7 +2,6 @@ package com.example.myapplication.repository
 
 import android.content.Context
 import com.example.myapplication.model.GameCharacter
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,12 +10,9 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.IOException
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class CharacterRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+class CharacterRepositoryImpl(
+    private val context: Context,
     private val json: Json
 ) : CharacterRepository {
 

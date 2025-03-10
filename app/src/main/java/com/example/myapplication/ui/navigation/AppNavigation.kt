@@ -7,8 +7,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.ui.screens.BattleResultScreen
-import com.example.myapplication.ui.screens.GameScreen
+import com.example.myapplication.ui.screens.ImprovedGameScreen // Updated import
+import com.example.myapplication.ui.screens.BattleResultScreen // Add this import
 import com.example.myapplication.ui.screens.MainMenuScreen
 import com.example.myapplication.ui.screens.StartScreen
 import com.example.myapplication.viewmodel.CharacterViewModel
@@ -52,7 +52,8 @@ fun AppNavigation(
             val leftSelection by viewModel.leftSelection.collectAsStateWithLifecycle()
             val rightSelection by viewModel.rightSelection.collectAsStateWithLifecycle()
 
-            GameScreen(
+            // Update this to use ImprovedGameScreen
+            ImprovedGameScreen(
                 uiState = uiState,
                 leftSelection = leftSelection,
                 rightSelection = rightSelection,

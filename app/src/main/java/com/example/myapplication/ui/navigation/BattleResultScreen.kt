@@ -1,5 +1,5 @@
 // BattleResultScreen.kt (New screen)
-package com.example.myapplication.ui.screens
+package com.example.myapplication.ui.navigation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

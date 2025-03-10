@@ -5,19 +5,15 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Utility class for loading and caching images from assets.
  */
-@Singleton
-class ImageLoader @Inject constructor(
-    @ApplicationContext private val context: Context,
+class ImageLoader(
+    private val context: Context,
     private val imageCache: MemoryCache<String, ImageBitmap>
 ) {
     /**

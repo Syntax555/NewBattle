@@ -4,15 +4,12 @@ package com.example.myapplication.util
 import androidx.collection.LruCache
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Generic memory cache that implements the LRU (Least Recently Used) algorithm.
  * Thread-safe with coroutine support.
  */
-@Singleton
-class MemoryCache<K, V> @Inject constructor() {
+class MemoryCache<K : Any, V : Any> {
     private val mutex = Mutex()
     private val cache: LruCache<K, V>
 

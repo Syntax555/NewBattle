@@ -1,21 +1,20 @@
 package com.example.myapplication.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.di.ServiceLocator
 import com.example.myapplication.model.CharacterKey
 import com.example.myapplication.model.GameCharacter
 import com.example.myapplication.model.OptimizedStatScoringEngine
 import com.example.myapplication.repository.CharacterRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
-@HiltViewModel
-class CharacterViewModel @Inject constructor(
+class CharacterViewModel(
     private val repository: CharacterRepository
 ) : ViewModel() {
 
@@ -75,6 +74,17 @@ class CharacterViewModel @Inject constructor(
         super.onCleared()
         // Clean up any resources
         OptimizedStatScoringEngine.clearCaches()
+    }
+
+    // Factory to create ViewModel with the repository
+    class Factory : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(CharacterViewModel::class.java)) {
+                return CharacterViewModel(ServiceLocator.provideCharacterRepository()) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 }
 
