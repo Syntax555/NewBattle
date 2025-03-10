@@ -9,8 +9,8 @@ import kotlinx.serialization.json.Json
  * This data‑driven approach lets you maintain many characters without hard‑coding them.
  */
 object CharacterRepository {
-    // Configure the JSON parser; ignore unknown keys to allow schema evolution.
-    private val jsonParser = Json { ignoreUnknownKeys = true }
+    // Lazy initialization for the JSON parser to reduce startup overhead.
+    private val jsonParser by lazy { Json { ignoreUnknownKeys = true } }
 
     /**
      * Loads a GameCharacter from a JSON string.

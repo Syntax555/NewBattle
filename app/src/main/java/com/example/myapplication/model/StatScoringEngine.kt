@@ -1,7 +1,7 @@
 package com.example.myapplication.model
 
-import StatScoringConfig.BASE_MULTIPLIER
-import StatScoringConfig.BASE_OFFSET
+import com.example.myapplication.model.StatScoringConfig.BASE_MULTIPLIER
+import com.example.myapplication.model.StatScoringConfig.BASE_OFFSET
 
 /**
  * Extension function for any StatValueHolder to calculate its effective score.
@@ -9,11 +9,11 @@ import StatScoringConfig.BASE_OFFSET
  * The effective score is calculated as:
  *    effectiveScore = (ordinal * BASE_MULTIPLIER) + modifierBonus + BASE_OFFSET
  *
- * This ensures each stat level is spaced by BASE_MULTIPLIER points, and even the lowest level is above 0.
+ * This ensures each stat level is spaced by BASE_MULTIPLIER points and even the lowest level is above 0.
  */
 inline fun <reified T : Enum<T>> StatValueHolder<T>.calculateScore(): Int {
     val baseScore = this.value.ordinal * BASE_MULTIPLIER
-    // Use default bonus of 2 if no modifier is set.
+    // Default bonus if no modifier is set is 2.
     val bonus = this.modifier?.bonusValue() ?: 2
     return baseScore + bonus + BASE_OFFSET
 }

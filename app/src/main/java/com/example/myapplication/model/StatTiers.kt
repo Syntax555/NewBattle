@@ -15,4 +15,11 @@ data class StatTiers(
     var intelligence: IntelligenceValue,
     var range: RangeValue,
     var stamina: StaminaValue
-)
+) {
+    /**
+     * A computed property that returns the total score for the character's stats.
+     * This score is automatically updated whenever an individual stat changes.
+     */
+    val totalScore: Int
+        get() = calculateTotalScore()
+}
