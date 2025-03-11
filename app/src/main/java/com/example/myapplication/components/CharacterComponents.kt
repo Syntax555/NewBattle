@@ -11,8 +11,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -26,14 +24,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.myapplication.model.*
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 // Import the stable version
-import androidx.compose.foundation.layout.FlowRow
+import com.example.myapplication.core.model.CharacterKey
+import com.example.myapplication.core.model.Classification
+import com.example.myapplication.core.model.GameCharacter
 
 /**
  * Enhanced character card component with expandable stats section.

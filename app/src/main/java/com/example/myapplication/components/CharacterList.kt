@@ -8,9 +8,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.model.CharacterKey
-import com.example.myapplication.model.GameCharacter
-import com.example.myapplication.model.Origin
+import com.example.myapplication.core.model.CharacterKey
+import com.example.myapplication.core.model.GameCharacter
+import com.example.myapplication.core.model.Origin
 
 /**
  * List of characters with filtering options.

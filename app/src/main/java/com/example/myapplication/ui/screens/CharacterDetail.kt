@@ -9,8 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.model.CharacterKey
-import com.example.myapplication.model.GameCharacter
+import com.example.myapplication.core.model.CharacterKey
+import com.example.myapplication.core.model.GameCharacter
 
 @Composable
 fun CharacterDetail(

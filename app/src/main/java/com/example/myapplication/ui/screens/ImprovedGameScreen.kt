@@ -22,9 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.myapplication.model.CharacterKey
-import com.example.myapplication.model.GameCharacter
-import com.example.myapplication.model.Origin
+import com.example.myapplication.core.model.CharacterKey
+import com.example.myapplication.core.model.GameCharacter
+import com.example.myapplication.core.model.Origin
 import com.example.myapplication.ui.components.CharacterCard
 import com.example.myapplication.ui.components.LoadingIndicator
 import com.example.myapplication.ui.components.ErrorDisplay

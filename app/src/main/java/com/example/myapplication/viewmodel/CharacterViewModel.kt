@@ -3,11 +3,10 @@ package com.example.myapplication.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.di.ServiceLocator
-import com.example.myapplication.model.CharacterKey
-import com.example.myapplication.model.GameCharacter
-import com.example.myapplication.model.OptimizedStatScoringEngine
-import com.example.myapplication.repository.CharacterRepository
+import com.example.myapplication.core.model.CharacterKey
+import com.example.myapplication.core.model.GameCharacter
+import com.example.myapplication.core.model.OptimizedStatScoringEngine
+import com.example.myapplication.data.repository.CharacterRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

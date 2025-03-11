@@ -1,78 +1,128 @@
-package com.example.myapplication.ui.navigation
+package com.example.battlecompare.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.ui.screens.ImprovedGameScreen // Updated import
-import com.example.myapplication.ui.screens.BattleResultScreen // Add this import
-import com.example.myapplication.ui.screens.MainMenuScreen
-import com.example.myapplication.ui.screens.StartScreen
-import com.example.myapplication.viewmodel.CharacterViewModel
+import com.example.battlecompare.core.AppDependencies
+import com.example.battlecompare.features.battle.ui.BattleResultScreen
+import com.example.battlecompare.features.battle.ui.CharacterSelectionScreen
+import com.example.battlecompare.features.battle.viewmodel.BattleViewModel
+import com.example.battlecompare.ui.screens.MainMenuScreen
+import com.example.battlecompare.ui.screens.SplashScreen
 
-sealed class AppDestination(val route: String) {
-    data object Start : AppDestination("start")
-    data object MainMenu : AppDestination("main_menu")
-    data object Game : AppDestination("game")
-    data object BattleResult : AppDestination("battle_result")
+/**
+ * Represents the navigation destinations in the app.
+ */
+sealed class NavDestination(val route: String) {
+    data object Splash : NavDestination("splash")
+    data object MainMenu : NavDestination("main_menu")
+    data object CharacterSelection : NavDestination("character_selection")
+    data object BattleResult : NavDestination("battle_result")
+
+    // Add parameters to routes if needed
+    fun withParams(vararg params: Pair<String, String>): String {
+        return if (params.isEmpty()) {
+            route
+        } else {
+            val queryParams = params.joinToString("&") { "${it.first}=${it.second}" }
+            "$route?$queryParams"
+        }
+    }
 }
 
+/**
+ * Main navigation component for the app.
+ * Uses a single shared ViewModel for character selection and battle.
+ */
 @Composable
 fun AppNavigation(
-    startDestination: String = AppDestination.Start.route
+    navController: NavHostController = rememberNavController(),
+    startDestination: String = NavDestination.Splash.route
 ) {
-    val navController = rememberNavController()
-    // Create a shared ViewModel for the whole navigation graph
-    val viewModel: CharacterViewModel = viewModel(factory = CharacterViewModel.Factory())
+    // Create shared ViewModel for character selection and battle result screens
+    val battleViewModel: BattleViewModel = viewModel(
+        factory = BattleViewModel.Factory(AppDependencies.provideCharacterRepository())
+    )
 
-    NavHost(navController = navController, startDestination = startDestination) {
-        composable(AppDestination.Start.route) {
-            StartScreen(
-                onStartClicked = {
-                    navController.navigate(AppDestination.MainMenu.route) {
-                        popUpTo(AppDestination.Start.route) { inclusive = true }
+    NavHost(
+        navController = navController,
+        startDestination = startDestination
+    ) {
+        // Splash screen
+        composable(NavDestination.Splash.route) {
+            SplashScreen(
+                onSplashComplete = {
+                    navController.navigate(NavDestination.MainMenu.route) {
+                        popUpTo(NavDestination.Splash.route) { inclusive = true }
                     }
                 }
             )
         }
 
-        composable(AppDestination.MainMenu.route) {
+        // Main menu screen
+        composable(NavDestination.MainMenu.route) {
             MainMenuScreen(
-                onStartGame = {
-                    navController.navigate(AppDestination.Game.route)
+                onStartBattle = {
+                    // Reset selections when starting a new battle
+                    battleViewModel.clearSelections()
+                    navController.navigate(NavDestination.CharacterSelection.route)
+                },
+                onSettings = {
+                    // Navigate to settings if implemented
+                },
+                onAbout = {
+                    // Show about dialog or navigate to about screen
                 }
             )
         }
 
-        composable(AppDestination.Game.route) {
-            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            val leftSelection by viewModel.leftSelection.collectAsStateWithLifecycle()
-            val rightSelection by viewModel.rightSelection.collectAsStateWithLifecycle()
+        // Character selection screen
+        composable(NavDestination.CharacterSelection.route) {
+            // Get state from ViewModel
+            val uiState by battleViewModel.uiState.collectAsState()
+            val leftSelection by battleViewModel.leftSelection.collectAsState()
+            val rightSelection by battleViewModel.rightSelection.collectAsState()
+            val filteredCharacters by battleViewModel.filteredCharacters.collectAsState()
+            val availableOrigins by battleViewModel.availableOrigins.collectAsState()
+            val selectedOrigin by battleViewModel.selectedOrigin.collectAsState()
+            val canStartBattle by battleViewModel.canStartBattle.collectAsState()
 
-            // Update this to use ImprovedGameScreen
-            ImprovedGameScreen(
+            CharacterSelectionScreen(
                 uiState = uiState,
                 leftSelection = leftSelection,
                 rightSelection = rightSelection,
-                onSelectLeftCharacter = viewModel::selectLeftCharacter,
-                onSelectRightCharacter = viewModel::selectRightCharacter,
-                onBackToMenu = {
-                    navController.popBackStack(
-                        AppDestination.MainMenu.route,
-                        inclusive = false
-                    )
+                filteredCharacters = filteredCharacters,
+                availableOrigins = availableOrigins,
+                selectedOrigin = selectedOrigin,
+                canStartBattle = canStartBattle,
+                onSelectLeftCharacter = battleViewModel::selectLeftCharacter,
+                onSelectRightCharacter = battleViewModel::selectRightCharacter,
+                onOriginSelected = { origin ->
+                    battleViewModel.filterCharacters(origin = origin)
+                },
+                onSearch = { query ->
+                    battleViewModel.filterCharacters(query = query)
                 },
                 onBattleInitiated = {
-                    navController.navigate(AppDestination.BattleResult.route)
+                    navController.navigate(NavDestination.BattleResult.route)
+                },
+                onBackToMenu = {
+                    navController.popBackStack(
+                        NavDestination.MainMenu.route,
+                        inclusive = false
+                    )
                 }
             )
         }
 
-        composable(AppDestination.BattleResult.route) {
-            val battleResult = viewModel.calculateBattleOutcome()
+        // Battle result screen
+        composable(NavDestination.BattleResult.route) {
+            val battleResult = battleViewModel.calculateBattleOutcome()
 
             BattleResultScreen(
                 battleResult = battleResult,
@@ -81,11 +131,24 @@ fun AppNavigation(
                 },
                 onBackToMainMenu = {
                     navController.popBackStack(
-                        AppDestination.MainMenu.route,
+                        NavDestination.MainMenu.route,
                         inclusive = false
                     )
+                },
+                onRematch = {
+                    // Keep the same characters but recalculate
+                    navController.popBackStack()
+                    navController.navigate(NavDestination.BattleResult.route)
                 }
             )
         }
     }
+}
+
+/**
+ * A simplified screen to help with navigation testing and previews.
+ */
+@Composable
+fun NavigationPreview() {
+    AppNavigation()
 }
